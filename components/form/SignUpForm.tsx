@@ -3,10 +3,8 @@ import React, { useActionState, useEffect } from 'react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Separator } from '@radix-ui/react-dropdown-menu'
-import { FcGoogle } from 'react-icons/fc'
-import { FaGithub, FaFacebook } from 'react-icons/fa'
 import { PropagateLoader } from 'react-spinners'
-import { signInWithFacebook, signUpAction } from '@/actions/auth.action'
+import { signUpAction } from '@/actions/auth.action'
 import Link from 'next/link'
 import { toast } from 'sonner';
 import SignInWithGoogleButton from './SignInWithGoogleButton';
@@ -62,9 +60,6 @@ export default function SignUpForm() {
             <Separator className="my-4" />
             <div className="flex center w-full mt-4 flex-col gap-2">
                 <SignInWithGoogleButton />
-                <Button onClick={signInWithFacebook} className="w-full bg-transparent border-gray-300 text-black py-2 rounded-md hover:bg-purple-700 transition duration-200 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700" variant="outline">
-                     <FaFacebook /> Connect with Facebook
-                </Button>
             </div>
            <p className='text-sm text-black dark:text-white text-center mt-4'>Vous avez déjà un compte ? <Link href={"/auth/login"} className="text-purple-700 font-bold underline">Se connecter</Link></p>
       </>

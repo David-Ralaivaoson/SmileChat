@@ -104,16 +104,4 @@ export async function signInWithGoogle() {
     redirect(res.url)
   }
 }
-export async function signInWithFacebook() {
-    const res = await auth.api.signInSocial({
-    body: {
-      provider: "facebook",
-      callbackURL: "/", // pas besoin du callback complet
-    },
-  })
 
-  // ⚠️ Ici on fait redirect directement, sans try/catch ni console.log
-  if (res.url) {
-    redirect(res.url)
-  }
-}
