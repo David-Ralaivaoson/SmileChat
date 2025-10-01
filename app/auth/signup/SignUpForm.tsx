@@ -1,13 +1,13 @@
 'use client';
 import React, { useActionState, useEffect } from 'react'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
+import { Input } from '../../../components/ui/input'
+import { Button } from '../../../components/ui/button'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { PropagateLoader } from 'react-spinners'
 import { signUpAction } from '@/actions/auth.action'
 import Link from 'next/link'
 import { toast } from 'sonner';
-import SignInWithGoogleButton from './SignInWithGoogleButton';
+import SignInWithGoogleButton from '../../../components/form/SignInWithGoogleButton';
 
 
 export default function SignUpForm() {

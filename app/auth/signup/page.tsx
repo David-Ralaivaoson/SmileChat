@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/utils/dark-mode-toogle";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import SignUpForm from "@/components/form/SignUpForm";
+import SignUpForm from "@/app/auth/signup/SignUpForm";
 
 export default function Home() {
 

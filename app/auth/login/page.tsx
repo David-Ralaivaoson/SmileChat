@@ -8,7 +8,7 @@ import { ModeToggle } from "@/components/utils/dark-mode-toogle";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
-import SignInForm from "@/components/form/SignInForm";
+import SignInForm from "@/app/auth/login/SignInForm";
 
 export default function Home() {
 

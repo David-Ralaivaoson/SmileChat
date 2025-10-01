@@ -71,12 +71,12 @@ export default function FeedPosts() {
                         <FaEllipsisVertical size={18}/>
                     </Button>
                 </div>
-              <div className="relative w-full overflow-hidden max-h-[450px]">
-                <img
+              <div className="relative w-full overflow-hidden max-h-[450px] bg-gray-200">
+                {/* <img
                   src={post.image}
                   alt={post.title}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+                /> */}
               </div>
               <CardHeader>
                 <CardTitle className="text-2xl font-bold bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
