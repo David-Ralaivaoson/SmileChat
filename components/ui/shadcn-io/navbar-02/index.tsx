@@ -17,6 +17,8 @@ import SearchInput from './SearchInput';
 import NavIcons from './NavIcons';
 import SearchInputPopover from './SearchInputPopover';
 import MenuMobile from './MenuMobile';
+import { useIsMobile } from '@/hooks/useIsMobile';
+import { HeaderSkeleton } from './HeaderSkeleton';
 
 // Simple logo component for the navbar
 const Logo = (props: React.SVGAttributes<SVGElement>) => {
@@ -55,53 +57,13 @@ export const Navbar02 = React.forwardRef<HTMLElement, Navbar02Props>(
       logoHref = '#',
       ...props
     },
-    ref
   ) => {
-    const [isMobile, setIsMobile] = useState(false);
-    const containerRef = useRef<HTMLElement>(null);
+    const {isMobile, combinedRef, isLoaded} = useIsMobile()
 
-    useEffect(() => {
-      const checkWidth = () => {
-        if (containerRef.current) {
-          const width = containerRef.current.offsetWidth;
-          setIsMobile(width < 768); // 768px is md breakpoint
-        }
-      };
+    if (!isLoaded) {
+      return <HeaderSkeleton />
+    }
 
-      checkWidth();
-
-      const resizeObserver = new ResizeObserver(checkWidth);
-      if (containerRef.current) {
-        resizeObserver.observe(containerRef.current);
-      }
-
-      return () => {
-        resizeObserver.disconnect();
-      };
-    }, []);
-
-    // Combine refs
-    const combinedRef = React.useCallback((node: HTMLElement | null) => {
-      containerRef.current = node;
-      if (typeof ref === 'function') {
-        ref(node);
-      } else if (ref) {
-        ref.current = node;
-      }
-    }, [ref]);
-
-    const renderIcon = (iconName: string) => {
-      switch (iconName) {
-        case 'BookOpenIcon':
-          return <BookOpenIcon size={16} className="text-foreground opacity-60" aria-hidden={true} />;
-        case 'LifeBuoyIcon':
-          return <LifeBuoyIcon size={16} className="text-foreground opacity-60" aria-hidden={true} />;
-        case 'InfoIcon':
-          return <InfoIcon size={16} className="text-foreground opacity-60" aria-hidden={true} />;
-        default:
-          return null;
-      }
-    };
 
     return (
       <header

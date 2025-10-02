@@ -1,16 +1,20 @@
-import { useEffect, useState, useRef, useCallback, Ref, RefObject } from "react";
+'use client'
+import { useEffect, useState, useRef, useCallback, Ref } from "react";
 
 export function useIsMobile<T extends HTMLElement = HTMLElement>(
   forwardedRef?: Ref<T>,
   breakpoint = 768
 ) {
-  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<T | null>(null);
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false); // ✅ nouvel état
 
   useEffect(() => {
     const checkWidth = () => {
       const width = containerRef.current?.offsetWidth ?? window.innerWidth;
       setIsMobile(width < breakpoint);
+      setIsLoaded(true); // ✅ indique que le calcul est fait
     };
 
     checkWidth();
@@ -36,12 +40,11 @@ export function useIsMobile<T extends HTMLElement = HTMLElement>(
       if (typeof forwardedRef === "function") {
         forwardedRef(node);
       } else {
-        // ici .current accepte bien T | null
         forwardedRef.current = node;
       }
     },
     [forwardedRef]
   );
 
-  return { isMobile, combinedRef };
+  return { isMobile, isLoaded, combinedRef };
 }

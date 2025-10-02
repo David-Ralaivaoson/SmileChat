@@ -43,6 +43,7 @@ const mockPosts: FeedPost[] = [
   },
 ];
 
+
 export default function FeedPosts() {
   return (
     <main className="w-full bg-gradient-to-br p-2 px-0">

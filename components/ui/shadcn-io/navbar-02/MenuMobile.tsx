@@ -12,6 +12,8 @@ import { Separator } from '../../separator'
 import { useSession } from '@/lib/auth-client'
 import { signOutAction } from '@/actions/auth.action'
 import { HiMenuAlt2 } from "react-icons/hi";
+import { useRouter } from 'next/navigation';
+import ProfileInPopover from './_components/ProfileInPopover';
 
 export default function MenuMobile() {
     const { data } = useSession()
@@ -31,8 +33,11 @@ export default function MenuMobile() {
             </Button>
         </PopoverTrigger>
         <PopoverContent align="start" className="w-64 p-1">
-            <NavigationMenu className="max-w-none">
-            <NavigationMenuList className="flex-col items-start gap-4 w-full p-2 py-4">
+            <NavigationMenu className="max-w-none justify-start px-4 -full">
+            <NavigationMenuList className="flex-col items-start justify-start gap-4 w-full py-4">
+                <ProfileInPopover />
+
+                <Separator />
                 <Link href="#" className='flex items-center gap-4'>
                     <FaHome /> Home 
                 </Link>

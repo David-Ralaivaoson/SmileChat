@@ -5,8 +5,10 @@ import { useEffect } from "react";
 import Image from "next/image";
 import "keen-slider/keen-slider.min.css";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { useSession } from "@/lib/auth-client";
 
 export default function Stories() {
+  const {data, isPending} = useSession()
   const {isMobile} = useIsMobile()
   const perView = isMobile ? 3 : 4
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
@@ -42,6 +44,11 @@ export default function Stories() {
       <div className="flex items-center gap-1 w-full overflow-hidden">
         {/* Bloc Add Story (fixe) */}
         <div className=" relative flex-shrink-0 w-[80px] h-38 bg-red-100 flex flex-col items-center justify-end rounded-xl overflow-hidden">
+            {data?.user.image ? (
+              <Image src={data.user.image} alt={`Profil de ${data.user.name}`} />
+            ) : (
+              <h1 className="text-bold text-6xl text-center">{data?.user.name[0]}</h1>
+            )}
           <div className=" relative w-12 h-12 rounded-xl bg-gray-200 flex flex-col items-center justify-center shadow-md overflow-hidden">
             <button className=" bg-blue-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-lg shadow">
               +
