@@ -11,7 +11,7 @@ export default function NavIcons() {
     const {isMobile} = useIsMobile()
   return (
     <div className='flex gap-8 sm:gap-4 w-full'>
-        <Link href="#">
+        <Link href="/">
             <FaHome size={24} className='text-[#3B82F6] hover:text-[#8B5CF6] transition-all'/>
         </Link>
         <Link href="#">

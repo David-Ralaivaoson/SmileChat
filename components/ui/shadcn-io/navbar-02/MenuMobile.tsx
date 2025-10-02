@@ -38,7 +38,7 @@ export default function MenuMobile() {
                 <ProfileInPopover />
 
                 <Separator />
-                <Link href="#" className='flex items-center gap-4'>
+                <Link href="/" className='flex items-center gap-4'>
                     <FaHome /> Home 
                 </Link>
                 <Link href="#" className='flex items-center gap-4'>

@@ -8,6 +8,8 @@ import { signOutAction } from '@/actions/auth.action'
 import { Skeleton } from '../../skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '../../avatar'
 import { useRouter } from 'next/navigation'
+import ProfileInPopover from './_components/ProfileInPopover'
+import { TbLogout } from 'react-icons/tb'
 
 export default function AuthButton() {
     const router = useRouter()
@@ -40,7 +42,7 @@ export default function AuthButton() {
   return (
     <Suspense fallback={<Skeleton className='w-[120px] h-10 ' />}>
       <DropdownMenu>
-            <DropdownMenuTrigger asChild className='cursor-pointer'>
+            <DropdownMenuTrigger asChild className='cursor-pointer px-4'>
                 <Button variant='outline'>
                     <Avatar className='size-8'>
                         {user?.image ? <AvatarImage src={user.image}/> : null}
@@ -50,14 +52,16 @@ export default function AuthButton() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
+                <DropdownMenuLabel>
+                    <ProfileInPopover />
+                </DropdownMenuLabel>
                 <Separator />
                 <DropdownMenuItem>
                     <form>
-                        <button className='cursor-pointer'
+                        <button className='cursor-pointer flex items-center gap-4'
                             formAction={formAction}
                         >
-                            {pending ? "Déconnexion...": "Se déconnecter"}
+                           <TbLogout /> {pending ? "Déconnexion...": "Se déconnecter"}
                         </button>
                     </form>
                 </DropdownMenuItem>
