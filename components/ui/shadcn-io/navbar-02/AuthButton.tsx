@@ -2,7 +2,7 @@
 import React, { useActionState, useEffect, Suspense } from 'react'
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem} from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem} from "@/components/ui/dropdown-menu"
 import { useSession } from '@/lib/auth-client'
 import { signOutAction } from '@/actions/auth.action'
 import { Skeleton } from '../../skeleton'
@@ -16,7 +16,6 @@ export default function AuthButton() {
     const [State, formAction, pending] = useActionState(signOutAction, initialeState)
     
     const user = data?.user
-    console.log("connected user :", user)
     if(!user || user === undefined){
         return (
         <div>
