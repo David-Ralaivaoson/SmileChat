@@ -1,3 +1,4 @@
+import UsersSugg from "@/components/sections/UsersSugg";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function RightSidebar() {
@@ -6,9 +7,7 @@ export default function RightSidebar() {
       <CardContent className="p-4">
         <h2 className="font-semibold text-lg">Suggestions</h2>
         <ul className="mt-2 space-y-2">
-          <li>Nouvel ami</li>
-          <li>Groupes</li>
-          <li>Événements</li>
+          <UsersSugg />
         </ul>
       </CardContent>
     </Card>
