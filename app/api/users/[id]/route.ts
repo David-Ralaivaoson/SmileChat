@@ -16,7 +16,7 @@ const updateUserSchema = z.object({
  * Récupère un utilisateur + relations
  */
 export async function GET(
-  req: Request,
+  req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
   const { id } = await context.params // ✅ attendre params
@@ -47,8 +47,9 @@ export async function GET(
  */
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params // ✅ attendre params
   try {
     // ⚡ On gère FormData (utile pour l'upload d'image)
     const formData = await req.formData()
@@ -74,7 +75,7 @@ export async function PATCH(
 
     // ⚡ Upload image si présente
     if (file) {
-      const blob = await put(`users/${params.id}-${file.name}`, file, {
+      const blob = await put(`users/${id}-${file.name}`, file, {
         access: "public", // rend l’URL publique
       })
       imageUrl = blob.url
@@ -82,7 +83,7 @@ export async function PATCH(
 
     // ✅ Mise à jour dans Prisma
     const updatedUser = await prisma.user.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         ...(parsed.data.name && { name: parsed.data.name }),
         ...(parsed.data.email && { email: parsed.data.email }),
