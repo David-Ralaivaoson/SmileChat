@@ -45,7 +45,7 @@ export async function GET(
  * PATCH /api/users/[id]
  * Modifie un utilisateur + upload image
  */
-export async function PATCH(
+export async function PUT(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
