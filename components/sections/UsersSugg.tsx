@@ -28,7 +28,7 @@ export default function UsersSugg() {
             <div key={user.id} className="keen-slider__slide">
               <Link
                 href={`/profile/${user.id}`}
-                className="bg-white h-full shadow-md rounded-xl border border-gray-200 p-3 flex flex-col items-center hover:scale-105 transform transition duration-300"
+                className="bg-white h-full shadow-md rounded-xl border border-gray-200 px-3 py-4 flex flex-col items-center hover:scale-105 transform transition duration-300"
               >
                 
                   <img
