@@ -1,5 +1,5 @@
 // app/api/users/[id]/route.ts
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { prisma } from "@/lib/prisma" // adapte ton chemin
 import { put } from "@vercel/blob"
@@ -46,7 +46,7 @@ export async function GET(
  * Modifie un utilisateur + upload image
  */
 export async function PATCH(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
