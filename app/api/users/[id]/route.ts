@@ -53,7 +53,7 @@ export async function PUT(
       headers: await headers()
     })
     const userConnected = await userSession
-    if(!userConnected) return null
+    if(!userConnected) return NextResponse.json({ error: "Non connecté" }, { status: 404 })
 
     if (userConnected.user.id !== id) {
       return NextResponse.json({error: `tu dois être ${userConnected.user.name} pour effectuer cette modification !`})
