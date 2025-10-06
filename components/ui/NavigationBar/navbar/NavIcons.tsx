@@ -6,16 +6,20 @@ import { AiFillMessage } from "react-icons/ai";
 import { IoNotifications } from "react-icons/io5";
 import { PiVideoFill } from "react-icons/pi";
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { usePathname } from 'next/navigation';
 export default function NavIcons() {
-
-    const {isMobile} = useIsMobile()
+    const pathname = usePathname()
+    const pathNameStartith = (path:string): boolean =>{
+        return pathname.startsWith(path)
+    }
+    console.log(pathname)
   return (
     <div className='flex gap-8 sm:gap-4 w-full'>
         <Link href="/">
-            <FaHome size={24} className='text-[#3B82F6] hover:text-[#8B5CF6] transition-all'/>
+            <FaHome size={24} className={`${pathname === "/" ? "text-[#8B5CF6]" :'text-[#3B82F6]' }  "hover:text-[#8B5CF6] transition-all"`}/>
         </Link>
-        <Link href="#">
-            <AiFillMessage size={24} className='text-[#3B82F6] hover:text-[#8B5CF6] transition-all' />
+        <Link href="/messages">
+            <AiFillMessage size={24} className={`${pathNameStartith('/messages') ? "text-[#8B5CF6]" :'text-[#3B82F6]' }  "hover:text-[#8B5CF6] transition-all"`} />
         </Link>
         <Link href="#">
             <IoNotifications size={24} className='text-[#3B82F6] hover:text-[#8B5CF6] transition-all'/>

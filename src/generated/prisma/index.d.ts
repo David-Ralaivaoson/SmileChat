@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model Speciality
+ * 
+ */
+export type Speciality = $Result.DefaultSelection<Prisma.$SpecialityPayload>
+/**
  * Model Post
  * 
  */
@@ -185,6 +190,16 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.speciality`: Exposes CRUD operations for the **Speciality** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Specialities
+    * const specialities = await prisma.speciality.findMany()
+    * ```
+    */
+  get speciality(): Prisma.SpecialityDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.post`: Exposes CRUD operations for the **Post** model.
     * Example usage:
     * ```ts
@@ -281,8 +296,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.16.2
-   * Query Engine version: 1c57fdcd7e44b29b9313256c76699e91c3ac3c43
+   * Prisma Client JS version: 6.16.3
+   * Query Engine version: bb420e667c1820a8c05a38023385f6cc7ef8e83a
    */
   export type PrismaVersion = {
     client: string
@@ -664,6 +679,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    Speciality: 'Speciality',
     Post: 'Post',
     Session: 'Session',
     Account: 'Account',
@@ -686,7 +702,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "post" | "session" | "account" | "verification"
+      modelProps: "user" | "speciality" | "post" | "session" | "account" | "verification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -761,6 +777,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Speciality: {
+        payload: Prisma.$SpecialityPayload<ExtArgs>
+        fields: Prisma.SpecialityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SpecialityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecialityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SpecialityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecialityPayload>
+          }
+          findFirst: {
+            args: Prisma.SpecialityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecialityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SpecialityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecialityPayload>
+          }
+          findMany: {
+            args: Prisma.SpecialityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecialityPayload>[]
+          }
+          create: {
+            args: Prisma.SpecialityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecialityPayload>
+          }
+          createMany: {
+            args: Prisma.SpecialityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SpecialityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecialityPayload>[]
+          }
+          delete: {
+            args: Prisma.SpecialityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecialityPayload>
+          }
+          update: {
+            args: Prisma.SpecialityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecialityPayload>
+          }
+          deleteMany: {
+            args: Prisma.SpecialityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SpecialityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SpecialityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecialityPayload>[]
+          }
+          upsert: {
+            args: Prisma.SpecialityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecialityPayload>
+          }
+          aggregate: {
+            args: Prisma.SpecialityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSpeciality>
+          }
+          groupBy: {
+            args: Prisma.SpecialityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SpecialityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SpecialityCountArgs<ExtArgs>
+            result: $Utils.Optional<SpecialityCountAggregateOutputType> | number
           }
         }
       }
@@ -1157,6 +1247,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    speciality?: SpecialityOmit
     post?: PostOmit
     session?: SessionOmit
     account?: AccountOmit
@@ -1241,15 +1332,17 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
+    posts: number
     sessions: number
     accounts: number
-    posts: number
+    speciality: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    posts?: boolean | UserCountOutputTypeCountPostsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-    posts?: boolean | UserCountOutputTypeCountPostsArgs
+    speciality?: boolean | UserCountOutputTypeCountSpecialityArgs
   }
 
   // Custom InputTypes
@@ -1261,6 +1354,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostWhereInput
   }
 
   /**
@@ -1280,8 +1380,8 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PostWhereInput
+  export type UserCountOutputTypeCountSpecialityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SpecialityWhereInput
   }
 
 
@@ -1307,6 +1407,17 @@ export namespace Prisma {
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    bio: string | null
+    profilePicture: string | null
+    firstname: string | null
+    lastname: string | null
+    phoneNumber: string | null
+    address: string | null
+    city: string | null
+    country: string | null
+    postalCode: string | null
+    dateOfBirth: Date | null
+    lastEditAtt: Date | null
     role: $Enums.UserRole | null
   }
 
@@ -1318,6 +1429,17 @@ export namespace Prisma {
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    bio: string | null
+    profilePicture: string | null
+    firstname: string | null
+    lastname: string | null
+    phoneNumber: string | null
+    address: string | null
+    city: string | null
+    country: string | null
+    postalCode: string | null
+    dateOfBirth: Date | null
+    lastEditAtt: Date | null
     role: $Enums.UserRole | null
   }
 
@@ -1329,6 +1451,17 @@ export namespace Prisma {
     image: number
     createdAt: number
     updatedAt: number
+    bio: number
+    profilePicture: number
+    firstname: number
+    lastname: number
+    phoneNumber: number
+    address: number
+    city: number
+    country: number
+    postalCode: number
+    dateOfBirth: number
+    lastEditAtt: number
     role: number
     _all: number
   }
@@ -1342,6 +1475,17 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    bio?: true
+    profilePicture?: true
+    firstname?: true
+    lastname?: true
+    phoneNumber?: true
+    address?: true
+    city?: true
+    country?: true
+    postalCode?: true
+    dateOfBirth?: true
+    lastEditAtt?: true
     role?: true
   }
 
@@ -1353,6 +1497,17 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    bio?: true
+    profilePicture?: true
+    firstname?: true
+    lastname?: true
+    phoneNumber?: true
+    address?: true
+    city?: true
+    country?: true
+    postalCode?: true
+    dateOfBirth?: true
+    lastEditAtt?: true
     role?: true
   }
 
@@ -1364,6 +1519,17 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    bio?: true
+    profilePicture?: true
+    firstname?: true
+    lastname?: true
+    phoneNumber?: true
+    address?: true
+    city?: true
+    country?: true
+    postalCode?: true
+    dateOfBirth?: true
+    lastEditAtt?: true
     role?: true
     _all?: true
   }
@@ -1448,6 +1614,17 @@ export namespace Prisma {
     image: string | null
     createdAt: Date
     updatedAt: Date
+    bio: string | null
+    profilePicture: string | null
+    firstname: string | null
+    lastname: string | null
+    phoneNumber: string | null
+    address: string | null
+    city: string | null
+    country: string | null
+    postalCode: string | null
+    dateOfBirth: Date | null
+    lastEditAtt: Date | null
     role: $Enums.UserRole
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -1476,10 +1653,22 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    bio?: boolean
+    profilePicture?: boolean
+    firstname?: boolean
+    lastname?: boolean
+    phoneNumber?: boolean
+    address?: boolean
+    city?: boolean
+    country?: boolean
+    postalCode?: boolean
+    dateOfBirth?: boolean
+    lastEditAtt?: boolean
     role?: boolean
+    posts?: boolean | User$postsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    posts?: boolean | User$postsArgs<ExtArgs>
+    speciality?: boolean | User$specialityArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1491,6 +1680,17 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    bio?: boolean
+    profilePicture?: boolean
+    firstname?: boolean
+    lastname?: boolean
+    phoneNumber?: boolean
+    address?: boolean
+    city?: boolean
+    country?: boolean
+    postalCode?: boolean
+    dateOfBirth?: boolean
+    lastEditAtt?: boolean
     role?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -1502,6 +1702,17 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    bio?: boolean
+    profilePicture?: boolean
+    firstname?: boolean
+    lastname?: boolean
+    phoneNumber?: boolean
+    address?: boolean
+    city?: boolean
+    country?: boolean
+    postalCode?: boolean
+    dateOfBirth?: boolean
+    lastEditAtt?: boolean
     role?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -1513,14 +1724,26 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    bio?: boolean
+    profilePicture?: boolean
+    firstname?: boolean
+    lastname?: boolean
+    phoneNumber?: boolean
+    address?: boolean
+    city?: boolean
+    country?: boolean
+    postalCode?: boolean
+    dateOfBirth?: boolean
+    lastEditAtt?: boolean
     role?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "bio" | "profilePicture" | "firstname" | "lastname" | "phoneNumber" | "address" | "city" | "country" | "postalCode" | "dateOfBirth" | "lastEditAtt" | "role", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    posts?: boolean | User$postsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    posts?: boolean | User$postsArgs<ExtArgs>
+    speciality?: boolean | User$specialityArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1529,9 +1752,10 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      posts: Prisma.$PostPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
-      posts: Prisma.$PostPayload<ExtArgs>[]
+      speciality: Prisma.$SpecialityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1541,6 +1765,17 @@ export namespace Prisma {
       image: string | null
       createdAt: Date
       updatedAt: Date
+      bio: string | null
+      profilePicture: string | null
+      firstname: string | null
+      lastname: string | null
+      phoneNumber: string | null
+      address: string | null
+      city: string | null
+      country: string | null
+      postalCode: string | null
+      dateOfBirth: Date | null
+      lastEditAtt: Date | null
       role: $Enums.UserRole
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -1936,9 +2171,10 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    speciality<T extends User$specialityArgs<ExtArgs> = {}>(args?: Subset<T, User$specialityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1975,6 +2211,17 @@ export namespace Prisma {
     readonly image: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly bio: FieldRef<"User", 'String'>
+    readonly profilePicture: FieldRef<"User", 'String'>
+    readonly firstname: FieldRef<"User", 'String'>
+    readonly lastname: FieldRef<"User", 'String'>
+    readonly phoneNumber: FieldRef<"User", 'String'>
+    readonly address: FieldRef<"User", 'String'>
+    readonly city: FieldRef<"User", 'String'>
+    readonly country: FieldRef<"User", 'String'>
+    readonly postalCode: FieldRef<"User", 'String'>
+    readonly dateOfBirth: FieldRef<"User", 'DateTime'>
+    readonly lastEditAtt: FieldRef<"User", 'DateTime'>
     readonly role: FieldRef<"User", 'UserRole'>
   }
     
@@ -2364,6 +2611,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.posts
+   */
+  export type User$postsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Post
+     */
+    omit?: PostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostInclude<ExtArgs> | null
+    where?: PostWhereInput
+    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[]
+    cursor?: PostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
+  }
+
+  /**
    * User.sessions
    */
   export type User$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2412,27 +2683,27 @@ export namespace Prisma {
   }
 
   /**
-   * User.posts
+   * User.speciality
    */
-  export type User$postsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$specialityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Post
+     * Select specific fields to fetch from the Speciality
      */
-    select?: PostSelect<ExtArgs> | null
+    select?: SpecialitySelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Post
+     * Omit specific fields from the Speciality
      */
-    omit?: PostOmit<ExtArgs> | null
+    omit?: SpecialityOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostInclude<ExtArgs> | null
-    where?: PostWhereInput
-    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[]
-    cursor?: PostWhereUniqueInput
+    include?: SpecialityInclude<ExtArgs> | null
+    where?: SpecialityWhereInput
+    orderBy?: SpecialityOrderByWithRelationInput | SpecialityOrderByWithRelationInput[]
+    cursor?: SpecialityWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
+    distinct?: SpecialityScalarFieldEnum | SpecialityScalarFieldEnum[]
   }
 
   /**
@@ -2451,6 +2722,1038 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Speciality
+   */
+
+  export type AggregateSpeciality = {
+    _count: SpecialityCountAggregateOutputType | null
+    _min: SpecialityMinAggregateOutputType | null
+    _max: SpecialityMaxAggregateOutputType | null
+  }
+
+  export type SpecialityMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    userId: string | null
+  }
+
+  export type SpecialityMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    userId: string | null
+  }
+
+  export type SpecialityCountAggregateOutputType = {
+    id: number
+    name: number
+    userId: number
+    _all: number
+  }
+
+
+  export type SpecialityMinAggregateInputType = {
+    id?: true
+    name?: true
+    userId?: true
+  }
+
+  export type SpecialityMaxAggregateInputType = {
+    id?: true
+    name?: true
+    userId?: true
+  }
+
+  export type SpecialityCountAggregateInputType = {
+    id?: true
+    name?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type SpecialityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Speciality to aggregate.
+     */
+    where?: SpecialityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Specialities to fetch.
+     */
+    orderBy?: SpecialityOrderByWithRelationInput | SpecialityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SpecialityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Specialities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Specialities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Specialities
+    **/
+    _count?: true | SpecialityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SpecialityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SpecialityMaxAggregateInputType
+  }
+
+  export type GetSpecialityAggregateType<T extends SpecialityAggregateArgs> = {
+        [P in keyof T & keyof AggregateSpeciality]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSpeciality[P]>
+      : GetScalarType<T[P], AggregateSpeciality[P]>
+  }
+
+
+
+
+  export type SpecialityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SpecialityWhereInput
+    orderBy?: SpecialityOrderByWithAggregationInput | SpecialityOrderByWithAggregationInput[]
+    by: SpecialityScalarFieldEnum[] | SpecialityScalarFieldEnum
+    having?: SpecialityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SpecialityCountAggregateInputType | true
+    _min?: SpecialityMinAggregateInputType
+    _max?: SpecialityMaxAggregateInputType
+  }
+
+  export type SpecialityGroupByOutputType = {
+    id: string
+    name: string
+    userId: string
+    _count: SpecialityCountAggregateOutputType | null
+    _min: SpecialityMinAggregateOutputType | null
+    _max: SpecialityMaxAggregateOutputType | null
+  }
+
+  type GetSpecialityGroupByPayload<T extends SpecialityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SpecialityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SpecialityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SpecialityGroupByOutputType[P]>
+            : GetScalarType<T[P], SpecialityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SpecialitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["speciality"]>
+
+  export type SpecialitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["speciality"]>
+
+  export type SpecialitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["speciality"]>
+
+  export type SpecialitySelectScalar = {
+    id?: boolean
+    name?: boolean
+    userId?: boolean
+  }
+
+  export type SpecialityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "userId", ExtArgs["result"]["speciality"]>
+  export type SpecialityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SpecialityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SpecialityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SpecialityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Speciality"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      userId: string
+    }, ExtArgs["result"]["speciality"]>
+    composites: {}
+  }
+
+  type SpecialityGetPayload<S extends boolean | null | undefined | SpecialityDefaultArgs> = $Result.GetResult<Prisma.$SpecialityPayload, S>
+
+  type SpecialityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SpecialityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SpecialityCountAggregateInputType | true
+    }
+
+  export interface SpecialityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Speciality'], meta: { name: 'Speciality' } }
+    /**
+     * Find zero or one Speciality that matches the filter.
+     * @param {SpecialityFindUniqueArgs} args - Arguments to find a Speciality
+     * @example
+     * // Get one Speciality
+     * const speciality = await prisma.speciality.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SpecialityFindUniqueArgs>(args: SelectSubset<T, SpecialityFindUniqueArgs<ExtArgs>>): Prisma__SpecialityClient<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Speciality that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SpecialityFindUniqueOrThrowArgs} args - Arguments to find a Speciality
+     * @example
+     * // Get one Speciality
+     * const speciality = await prisma.speciality.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SpecialityFindUniqueOrThrowArgs>(args: SelectSubset<T, SpecialityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SpecialityClient<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Speciality that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecialityFindFirstArgs} args - Arguments to find a Speciality
+     * @example
+     * // Get one Speciality
+     * const speciality = await prisma.speciality.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SpecialityFindFirstArgs>(args?: SelectSubset<T, SpecialityFindFirstArgs<ExtArgs>>): Prisma__SpecialityClient<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Speciality that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecialityFindFirstOrThrowArgs} args - Arguments to find a Speciality
+     * @example
+     * // Get one Speciality
+     * const speciality = await prisma.speciality.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SpecialityFindFirstOrThrowArgs>(args?: SelectSubset<T, SpecialityFindFirstOrThrowArgs<ExtArgs>>): Prisma__SpecialityClient<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Specialities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecialityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Specialities
+     * const specialities = await prisma.speciality.findMany()
+     * 
+     * // Get first 10 Specialities
+     * const specialities = await prisma.speciality.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const specialityWithIdOnly = await prisma.speciality.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SpecialityFindManyArgs>(args?: SelectSubset<T, SpecialityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Speciality.
+     * @param {SpecialityCreateArgs} args - Arguments to create a Speciality.
+     * @example
+     * // Create one Speciality
+     * const Speciality = await prisma.speciality.create({
+     *   data: {
+     *     // ... data to create a Speciality
+     *   }
+     * })
+     * 
+     */
+    create<T extends SpecialityCreateArgs>(args: SelectSubset<T, SpecialityCreateArgs<ExtArgs>>): Prisma__SpecialityClient<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Specialities.
+     * @param {SpecialityCreateManyArgs} args - Arguments to create many Specialities.
+     * @example
+     * // Create many Specialities
+     * const speciality = await prisma.speciality.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SpecialityCreateManyArgs>(args?: SelectSubset<T, SpecialityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Specialities and returns the data saved in the database.
+     * @param {SpecialityCreateManyAndReturnArgs} args - Arguments to create many Specialities.
+     * @example
+     * // Create many Specialities
+     * const speciality = await prisma.speciality.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Specialities and only return the `id`
+     * const specialityWithIdOnly = await prisma.speciality.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SpecialityCreateManyAndReturnArgs>(args?: SelectSubset<T, SpecialityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Speciality.
+     * @param {SpecialityDeleteArgs} args - Arguments to delete one Speciality.
+     * @example
+     * // Delete one Speciality
+     * const Speciality = await prisma.speciality.delete({
+     *   where: {
+     *     // ... filter to delete one Speciality
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SpecialityDeleteArgs>(args: SelectSubset<T, SpecialityDeleteArgs<ExtArgs>>): Prisma__SpecialityClient<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Speciality.
+     * @param {SpecialityUpdateArgs} args - Arguments to update one Speciality.
+     * @example
+     * // Update one Speciality
+     * const speciality = await prisma.speciality.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SpecialityUpdateArgs>(args: SelectSubset<T, SpecialityUpdateArgs<ExtArgs>>): Prisma__SpecialityClient<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Specialities.
+     * @param {SpecialityDeleteManyArgs} args - Arguments to filter Specialities to delete.
+     * @example
+     * // Delete a few Specialities
+     * const { count } = await prisma.speciality.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SpecialityDeleteManyArgs>(args?: SelectSubset<T, SpecialityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Specialities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecialityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Specialities
+     * const speciality = await prisma.speciality.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SpecialityUpdateManyArgs>(args: SelectSubset<T, SpecialityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Specialities and returns the data updated in the database.
+     * @param {SpecialityUpdateManyAndReturnArgs} args - Arguments to update many Specialities.
+     * @example
+     * // Update many Specialities
+     * const speciality = await prisma.speciality.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Specialities and only return the `id`
+     * const specialityWithIdOnly = await prisma.speciality.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SpecialityUpdateManyAndReturnArgs>(args: SelectSubset<T, SpecialityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Speciality.
+     * @param {SpecialityUpsertArgs} args - Arguments to update or create a Speciality.
+     * @example
+     * // Update or create a Speciality
+     * const speciality = await prisma.speciality.upsert({
+     *   create: {
+     *     // ... data to create a Speciality
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Speciality we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SpecialityUpsertArgs>(args: SelectSubset<T, SpecialityUpsertArgs<ExtArgs>>): Prisma__SpecialityClient<$Result.GetResult<Prisma.$SpecialityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Specialities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecialityCountArgs} args - Arguments to filter Specialities to count.
+     * @example
+     * // Count the number of Specialities
+     * const count = await prisma.speciality.count({
+     *   where: {
+     *     // ... the filter for the Specialities we want to count
+     *   }
+     * })
+    **/
+    count<T extends SpecialityCountArgs>(
+      args?: Subset<T, SpecialityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SpecialityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Speciality.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecialityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SpecialityAggregateArgs>(args: Subset<T, SpecialityAggregateArgs>): Prisma.PrismaPromise<GetSpecialityAggregateType<T>>
+
+    /**
+     * Group by Speciality.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecialityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SpecialityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SpecialityGroupByArgs['orderBy'] }
+        : { orderBy?: SpecialityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SpecialityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSpecialityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Speciality model
+   */
+  readonly fields: SpecialityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Speciality.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SpecialityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Speciality model
+   */
+  interface SpecialityFieldRefs {
+    readonly id: FieldRef<"Speciality", 'String'>
+    readonly name: FieldRef<"Speciality", 'String'>
+    readonly userId: FieldRef<"Speciality", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Speciality findUnique
+   */
+  export type SpecialityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityInclude<ExtArgs> | null
+    /**
+     * Filter, which Speciality to fetch.
+     */
+    where: SpecialityWhereUniqueInput
+  }
+
+  /**
+   * Speciality findUniqueOrThrow
+   */
+  export type SpecialityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityInclude<ExtArgs> | null
+    /**
+     * Filter, which Speciality to fetch.
+     */
+    where: SpecialityWhereUniqueInput
+  }
+
+  /**
+   * Speciality findFirst
+   */
+  export type SpecialityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityInclude<ExtArgs> | null
+    /**
+     * Filter, which Speciality to fetch.
+     */
+    where?: SpecialityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Specialities to fetch.
+     */
+    orderBy?: SpecialityOrderByWithRelationInput | SpecialityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Specialities.
+     */
+    cursor?: SpecialityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Specialities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Specialities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Specialities.
+     */
+    distinct?: SpecialityScalarFieldEnum | SpecialityScalarFieldEnum[]
+  }
+
+  /**
+   * Speciality findFirstOrThrow
+   */
+  export type SpecialityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityInclude<ExtArgs> | null
+    /**
+     * Filter, which Speciality to fetch.
+     */
+    where?: SpecialityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Specialities to fetch.
+     */
+    orderBy?: SpecialityOrderByWithRelationInput | SpecialityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Specialities.
+     */
+    cursor?: SpecialityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Specialities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Specialities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Specialities.
+     */
+    distinct?: SpecialityScalarFieldEnum | SpecialityScalarFieldEnum[]
+  }
+
+  /**
+   * Speciality findMany
+   */
+  export type SpecialityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityInclude<ExtArgs> | null
+    /**
+     * Filter, which Specialities to fetch.
+     */
+    where?: SpecialityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Specialities to fetch.
+     */
+    orderBy?: SpecialityOrderByWithRelationInput | SpecialityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Specialities.
+     */
+    cursor?: SpecialityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Specialities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Specialities.
+     */
+    skip?: number
+    distinct?: SpecialityScalarFieldEnum | SpecialityScalarFieldEnum[]
+  }
+
+  /**
+   * Speciality create
+   */
+  export type SpecialityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Speciality.
+     */
+    data: XOR<SpecialityCreateInput, SpecialityUncheckedCreateInput>
+  }
+
+  /**
+   * Speciality createMany
+   */
+  export type SpecialityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Specialities.
+     */
+    data: SpecialityCreateManyInput | SpecialityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Speciality createManyAndReturn
+   */
+  export type SpecialityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * The data used to create many Specialities.
+     */
+    data: SpecialityCreateManyInput | SpecialityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Speciality update
+   */
+  export type SpecialityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Speciality.
+     */
+    data: XOR<SpecialityUpdateInput, SpecialityUncheckedUpdateInput>
+    /**
+     * Choose, which Speciality to update.
+     */
+    where: SpecialityWhereUniqueInput
+  }
+
+  /**
+   * Speciality updateMany
+   */
+  export type SpecialityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Specialities.
+     */
+    data: XOR<SpecialityUpdateManyMutationInput, SpecialityUncheckedUpdateManyInput>
+    /**
+     * Filter which Specialities to update
+     */
+    where?: SpecialityWhereInput
+    /**
+     * Limit how many Specialities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Speciality updateManyAndReturn
+   */
+  export type SpecialityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * The data used to update Specialities.
+     */
+    data: XOR<SpecialityUpdateManyMutationInput, SpecialityUncheckedUpdateManyInput>
+    /**
+     * Filter which Specialities to update
+     */
+    where?: SpecialityWhereInput
+    /**
+     * Limit how many Specialities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Speciality upsert
+   */
+  export type SpecialityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Speciality to update in case it exists.
+     */
+    where: SpecialityWhereUniqueInput
+    /**
+     * In case the Speciality found by the `where` argument doesn't exist, create a new Speciality with this data.
+     */
+    create: XOR<SpecialityCreateInput, SpecialityUncheckedCreateInput>
+    /**
+     * In case the Speciality was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SpecialityUpdateInput, SpecialityUncheckedUpdateInput>
+  }
+
+  /**
+   * Speciality delete
+   */
+  export type SpecialityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityInclude<ExtArgs> | null
+    /**
+     * Filter which Speciality to delete.
+     */
+    where: SpecialityWhereUniqueInput
+  }
+
+  /**
+   * Speciality deleteMany
+   */
+  export type SpecialityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Specialities to delete
+     */
+    where?: SpecialityWhereInput
+    /**
+     * Limit how many Specialities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Speciality without action
+   */
+  export type SpecialityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Speciality
+     */
+    select?: SpecialitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Speciality
+     */
+    omit?: SpecialityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecialityInclude<ExtArgs> | null
   }
 
 
@@ -6814,10 +8117,30 @@ export namespace Prisma {
     image: 'image',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    bio: 'bio',
+    profilePicture: 'profilePicture',
+    firstname: 'firstname',
+    lastname: 'lastname',
+    phoneNumber: 'phoneNumber',
+    address: 'address',
+    city: 'city',
+    country: 'country',
+    postalCode: 'postalCode',
+    dateOfBirth: 'dateOfBirth',
+    lastEditAtt: 'lastEditAtt',
     role: 'role'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const SpecialityScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    userId: 'userId'
+  };
+
+  export type SpecialityScalarFieldEnum = (typeof SpecialityScalarFieldEnum)[keyof typeof SpecialityScalarFieldEnum]
 
 
   export const PostScalarFieldEnum: {
@@ -6983,10 +8306,22 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    bio?: StringNullableFilter<"User"> | string | null
+    profilePicture?: StringNullableFilter<"User"> | string | null
+    firstname?: StringNullableFilter<"User"> | string | null
+    lastname?: StringNullableFilter<"User"> | string | null
+    phoneNumber?: StringNullableFilter<"User"> | string | null
+    address?: StringNullableFilter<"User"> | string | null
+    city?: StringNullableFilter<"User"> | string | null
+    country?: StringNullableFilter<"User"> | string | null
+    postalCode?: StringNullableFilter<"User"> | string | null
+    dateOfBirth?: DateTimeNullableFilter<"User"> | Date | string | null
+    lastEditAtt?: DateTimeNullableFilter<"User"> | Date | string | null
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    posts?: PostListRelationFilter
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
-    posts?: PostListRelationFilter
+    speciality?: SpecialityListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -6997,10 +8332,22 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    bio?: SortOrderInput | SortOrder
+    profilePicture?: SortOrderInput | SortOrder
+    firstname?: SortOrderInput | SortOrder
+    lastname?: SortOrderInput | SortOrder
+    phoneNumber?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    postalCode?: SortOrderInput | SortOrder
+    dateOfBirth?: SortOrderInput | SortOrder
+    lastEditAtt?: SortOrderInput | SortOrder
     role?: SortOrder
+    posts?: PostOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
-    posts?: PostOrderByRelationAggregateInput
+    speciality?: SpecialityOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7014,10 +8361,22 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    bio?: StringNullableFilter<"User"> | string | null
+    profilePicture?: StringNullableFilter<"User"> | string | null
+    firstname?: StringNullableFilter<"User"> | string | null
+    lastname?: StringNullableFilter<"User"> | string | null
+    phoneNumber?: StringNullableFilter<"User"> | string | null
+    address?: StringNullableFilter<"User"> | string | null
+    city?: StringNullableFilter<"User"> | string | null
+    country?: StringNullableFilter<"User"> | string | null
+    postalCode?: StringNullableFilter<"User"> | string | null
+    dateOfBirth?: DateTimeNullableFilter<"User"> | Date | string | null
+    lastEditAtt?: DateTimeNullableFilter<"User"> | Date | string | null
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    posts?: PostListRelationFilter
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
-    posts?: PostListRelationFilter
+    speciality?: SpecialityListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -7028,6 +8387,17 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    bio?: SortOrderInput | SortOrder
+    profilePicture?: SortOrderInput | SortOrder
+    firstname?: SortOrderInput | SortOrder
+    lastname?: SortOrderInput | SortOrder
+    phoneNumber?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    postalCode?: SortOrderInput | SortOrder
+    dateOfBirth?: SortOrderInput | SortOrder
+    lastEditAtt?: SortOrderInput | SortOrder
     role?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -7045,7 +8415,63 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
+    profilePicture?: StringNullableWithAggregatesFilter<"User"> | string | null
+    firstname?: StringNullableWithAggregatesFilter<"User"> | string | null
+    lastname?: StringNullableWithAggregatesFilter<"User"> | string | null
+    phoneNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    address?: StringNullableWithAggregatesFilter<"User"> | string | null
+    city?: StringNullableWithAggregatesFilter<"User"> | string | null
+    country?: StringNullableWithAggregatesFilter<"User"> | string | null
+    postalCode?: StringNullableWithAggregatesFilter<"User"> | string | null
+    dateOfBirth?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    lastEditAtt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
+  }
+
+  export type SpecialityWhereInput = {
+    AND?: SpecialityWhereInput | SpecialityWhereInput[]
+    OR?: SpecialityWhereInput[]
+    NOT?: SpecialityWhereInput | SpecialityWhereInput[]
+    id?: StringFilter<"Speciality"> | string
+    name?: StringFilter<"Speciality"> | string
+    userId?: StringFilter<"Speciality"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type SpecialityOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SpecialityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SpecialityWhereInput | SpecialityWhereInput[]
+    OR?: SpecialityWhereInput[]
+    NOT?: SpecialityWhereInput | SpecialityWhereInput[]
+    name?: StringFilter<"Speciality"> | string
+    userId?: StringFilter<"Speciality"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type SpecialityOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    userId?: SortOrder
+    _count?: SpecialityCountOrderByAggregateInput
+    _max?: SpecialityMaxOrderByAggregateInput
+    _min?: SpecialityMinOrderByAggregateInput
+  }
+
+  export type SpecialityScalarWhereWithAggregatesInput = {
+    AND?: SpecialityScalarWhereWithAggregatesInput | SpecialityScalarWhereWithAggregatesInput[]
+    OR?: SpecialityScalarWhereWithAggregatesInput[]
+    NOT?: SpecialityScalarWhereWithAggregatesInput | SpecialityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Speciality"> | string
+    name?: StringWithAggregatesFilter<"Speciality"> | string
+    userId?: StringWithAggregatesFilter<"Speciality"> | string
   }
 
   export type PostWhereInput = {
@@ -7338,10 +8764,22 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bio?: string | null
+    profilePicture?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    phoneNumber?: string | null
+    address?: string | null
+    city?: string | null
+    country?: string | null
+    postalCode?: string | null
+    dateOfBirth?: Date | string | null
+    lastEditAtt?: Date | string | null
     role?: $Enums.UserRole
+    posts?: PostCreateNestedManyWithoutAuthorInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
+    speciality?: SpecialityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -7352,10 +8790,22 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bio?: string | null
+    profilePicture?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    phoneNumber?: string | null
+    address?: string | null
+    city?: string | null
+    country?: string | null
+    postalCode?: string | null
+    dateOfBirth?: Date | string | null
+    lastEditAtt?: Date | string | null
     role?: $Enums.UserRole
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    speciality?: SpecialityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -7366,10 +8816,22 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    posts?: PostUpdateManyWithoutAuthorNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
+    speciality?: SpecialityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7380,10 +8842,22 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    speciality?: SpecialityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -7394,6 +8868,17 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bio?: string | null
+    profilePicture?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    phoneNumber?: string | null
+    address?: string | null
+    city?: string | null
+    country?: string | null
+    postalCode?: string | null
+    dateOfBirth?: Date | string | null
+    lastEditAtt?: Date | string | null
     role?: $Enums.UserRole
   }
 
@@ -7405,6 +8890,17 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   }
 
@@ -7416,7 +8912,59 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  }
+
+  export type SpecialityCreateInput = {
+    id: string
+    name: string
+    user: UserCreateNestedOneWithoutSpecialityInput
+  }
+
+  export type SpecialityUncheckedCreateInput = {
+    id: string
+    name: string
+    userId: string
+  }
+
+  export type SpecialityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutSpecialityNestedInput
+  }
+
+  export type SpecialityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SpecialityCreateManyInput = {
+    id: string
+    name: string
+    userId: string
+  }
+
+  export type SpecialityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SpecialityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PostCreateInput = {
@@ -7777,11 +9325,28 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type EnumUserRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
     in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
     notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
     not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  }
+
+  export type PostListRelationFilter = {
+    every?: PostWhereInput
+    some?: PostWhereInput
+    none?: PostWhereInput
   }
 
   export type SessionListRelationFilter = {
@@ -7796,15 +9361,19 @@ export namespace Prisma {
     none?: AccountWhereInput
   }
 
-  export type PostListRelationFilter = {
-    every?: PostWhereInput
-    some?: PostWhereInput
-    none?: PostWhereInput
+  export type SpecialityListRelationFilter = {
+    every?: SpecialityWhereInput
+    some?: SpecialityWhereInput
+    none?: SpecialityWhereInput
   }
 
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type PostOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type SessionOrderByRelationAggregateInput = {
@@ -7815,7 +9384,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type PostOrderByRelationAggregateInput = {
+  export type SpecialityOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -7827,6 +9396,17 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    bio?: SortOrder
+    profilePicture?: SortOrder
+    firstname?: SortOrder
+    lastname?: SortOrder
+    phoneNumber?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    country?: SortOrder
+    postalCode?: SortOrder
+    dateOfBirth?: SortOrder
+    lastEditAtt?: SortOrder
     role?: SortOrder
   }
 
@@ -7838,6 +9418,17 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    bio?: SortOrder
+    profilePicture?: SortOrder
+    firstname?: SortOrder
+    lastname?: SortOrder
+    phoneNumber?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    country?: SortOrder
+    postalCode?: SortOrder
+    dateOfBirth?: SortOrder
+    lastEditAtt?: SortOrder
     role?: SortOrder
   }
 
@@ -7849,6 +9440,17 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    bio?: SortOrder
+    profilePicture?: SortOrder
+    firstname?: SortOrder
+    lastname?: SortOrder
+    phoneNumber?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    country?: SortOrder
+    postalCode?: SortOrder
+    dateOfBirth?: SortOrder
+    lastEditAtt?: SortOrder
     role?: SortOrder
   }
 
@@ -7910,6 +9512,20 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
     in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
@@ -7923,6 +9539,24 @@ export namespace Prisma {
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
+  }
+
+  export type SpecialityCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SpecialityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SpecialityMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    userId?: SortOrder
   }
 
   export type PostCountOrderByAggregateInput = {
@@ -7985,17 +9619,6 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type AccountCountOrderByAggregateInput = {
     id?: SortOrder
     accountId?: SortOrder
@@ -8044,20 +9667,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type VerificationCountOrderByAggregateInput = {
     id?: SortOrder
     identifier?: SortOrder
@@ -8085,6 +9694,13 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type PostCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
+    createMany?: PostCreateManyAuthorInputEnvelope
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -8099,7 +9715,14 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type PostCreateNestedManyWithoutAuthorInput = {
+  export type SpecialityCreateNestedManyWithoutUserInput = {
+    create?: XOR<SpecialityCreateWithoutUserInput, SpecialityUncheckedCreateWithoutUserInput> | SpecialityCreateWithoutUserInput[] | SpecialityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SpecialityCreateOrConnectWithoutUserInput | SpecialityCreateOrConnectWithoutUserInput[]
+    createMany?: SpecialityCreateManyUserInputEnvelope
+    connect?: SpecialityWhereUniqueInput | SpecialityWhereUniqueInput[]
+  }
+
+  export type PostUncheckedCreateNestedManyWithoutAuthorInput = {
     create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
     connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
     createMany?: PostCreateManyAuthorInputEnvelope
@@ -8120,11 +9743,11 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type PostUncheckedCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
-    createMany?: PostCreateManyAuthorInputEnvelope
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  export type SpecialityUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SpecialityCreateWithoutUserInput, SpecialityUncheckedCreateWithoutUserInput> | SpecialityCreateWithoutUserInput[] | SpecialityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SpecialityCreateOrConnectWithoutUserInput | SpecialityCreateOrConnectWithoutUserInput[]
+    createMany?: SpecialityCreateManyUserInputEnvelope
+    connect?: SpecialityWhereUniqueInput | SpecialityWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -8143,8 +9766,26 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type EnumUserRoleFieldUpdateOperationsInput = {
     set?: $Enums.UserRole
+  }
+
+  export type PostUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
+    upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput | PostUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: PostCreateManyAuthorInputEnvelope
+    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    update?: PostUpdateWithWhereUniqueWithoutAuthorInput | PostUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: PostUpdateManyWithWhereWithoutAuthorInput | PostUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -8175,7 +9816,21 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type PostUpdateManyWithoutAuthorNestedInput = {
+  export type SpecialityUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SpecialityCreateWithoutUserInput, SpecialityUncheckedCreateWithoutUserInput> | SpecialityCreateWithoutUserInput[] | SpecialityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SpecialityCreateOrConnectWithoutUserInput | SpecialityCreateOrConnectWithoutUserInput[]
+    upsert?: SpecialityUpsertWithWhereUniqueWithoutUserInput | SpecialityUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SpecialityCreateManyUserInputEnvelope
+    set?: SpecialityWhereUniqueInput | SpecialityWhereUniqueInput[]
+    disconnect?: SpecialityWhereUniqueInput | SpecialityWhereUniqueInput[]
+    delete?: SpecialityWhereUniqueInput | SpecialityWhereUniqueInput[]
+    connect?: SpecialityWhereUniqueInput | SpecialityWhereUniqueInput[]
+    update?: SpecialityUpdateWithWhereUniqueWithoutUserInput | SpecialityUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SpecialityUpdateManyWithWhereWithoutUserInput | SpecialityUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SpecialityScalarWhereInput | SpecialityScalarWhereInput[]
+  }
+
+  export type PostUncheckedUpdateManyWithoutAuthorNestedInput = {
     create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
     connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
     upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput | PostUpsertWithWhereUniqueWithoutAuthorInput[]
@@ -8217,18 +9872,32 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type PostUncheckedUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
-    upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput | PostUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: PostCreateManyAuthorInputEnvelope
-    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    update?: PostUpdateWithWhereUniqueWithoutAuthorInput | PostUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: PostUpdateManyWithWhereWithoutAuthorInput | PostUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  export type SpecialityUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SpecialityCreateWithoutUserInput, SpecialityUncheckedCreateWithoutUserInput> | SpecialityCreateWithoutUserInput[] | SpecialityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SpecialityCreateOrConnectWithoutUserInput | SpecialityCreateOrConnectWithoutUserInput[]
+    upsert?: SpecialityUpsertWithWhereUniqueWithoutUserInput | SpecialityUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SpecialityCreateManyUserInputEnvelope
+    set?: SpecialityWhereUniqueInput | SpecialityWhereUniqueInput[]
+    disconnect?: SpecialityWhereUniqueInput | SpecialityWhereUniqueInput[]
+    delete?: SpecialityWhereUniqueInput | SpecialityWhereUniqueInput[]
+    connect?: SpecialityWhereUniqueInput | SpecialityWhereUniqueInput[]
+    update?: SpecialityUpdateWithWhereUniqueWithoutUserInput | SpecialityUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SpecialityUpdateManyWithWhereWithoutUserInput | SpecialityUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SpecialityScalarWhereInput | SpecialityScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutSpecialityInput = {
+    create?: XOR<UserCreateWithoutSpecialityInput, UserUncheckedCreateWithoutSpecialityInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSpecialityInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutSpecialityNestedInput = {
+    create?: XOR<UserCreateWithoutSpecialityInput, UserUncheckedCreateWithoutSpecialityInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSpecialityInput
+    upsert?: UserUpsertWithoutSpecialityInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSpecialityInput, UserUpdateWithoutSpecialityInput>, UserUncheckedUpdateWithoutSpecialityInput>
   }
 
   export type UserCreateNestedOneWithoutPostsInput = {
@@ -8263,10 +9932,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
@@ -8319,6 +9984,17 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
@@ -8406,27 +10082,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumUserRoleFilter<$PrismaModel>
-    _max?: NestedEnumUserRoleFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -8439,6 +10094,42 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>
+  }
+
+  export type PostCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    content?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    content?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostCreateOrConnectWithoutAuthorInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type PostCreateManyAuthorInputEnvelope = {
+    data: PostCreateManyAuthorInput | PostCreateManyAuthorInput[]
+    skipDuplicates?: boolean
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -8511,30 +10202,52 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type PostCreateWithoutAuthorInput = {
-    id?: string
-    title: string
-    content?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type SpecialityCreateWithoutUserInput = {
+    id: string
+    name: string
   }
 
-  export type PostUncheckedCreateWithoutAuthorInput = {
-    id?: string
-    title: string
-    content?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type SpecialityUncheckedCreateWithoutUserInput = {
+    id: string
+    name: string
   }
 
-  export type PostCreateOrConnectWithoutAuthorInput = {
+  export type SpecialityCreateOrConnectWithoutUserInput = {
+    where: SpecialityWhereUniqueInput
+    create: XOR<SpecialityCreateWithoutUserInput, SpecialityUncheckedCreateWithoutUserInput>
+  }
+
+  export type SpecialityCreateManyUserInputEnvelope = {
+    data: SpecialityCreateManyUserInput | SpecialityCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PostUpsertWithWhereUniqueWithoutAuthorInput = {
     where: PostWhereUniqueInput
+    update: XOR<PostUpdateWithoutAuthorInput, PostUncheckedUpdateWithoutAuthorInput>
     create: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput>
   }
 
-  export type PostCreateManyAuthorInputEnvelope = {
-    data: PostCreateManyAuthorInput | PostCreateManyAuthorInput[]
-    skipDuplicates?: boolean
+  export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: PostWhereUniqueInput
+    data: XOR<PostUpdateWithoutAuthorInput, PostUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type PostUpdateManyWithWhereWithoutAuthorInput = {
+    where: PostScalarWhereInput
+    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type PostScalarWhereInput = {
+    AND?: PostScalarWhereInput | PostScalarWhereInput[]
+    OR?: PostScalarWhereInput[]
+    NOT?: PostScalarWhereInput | PostScalarWhereInput[]
+    id?: StringFilter<"Post"> | string
+    title?: StringFilter<"Post"> | string
+    content?: StringNullableFilter<"Post"> | string | null
+    authorId?: StringFilter<"Post"> | string
+    createdAt?: DateTimeFilter<"Post"> | Date | string
+    updatedAt?: DateTimeFilter<"Post"> | Date | string
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -8602,32 +10315,145 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Account"> | Date | string
   }
 
-  export type PostUpsertWithWhereUniqueWithoutAuthorInput = {
-    where: PostWhereUniqueInput
-    update: XOR<PostUpdateWithoutAuthorInput, PostUncheckedUpdateWithoutAuthorInput>
-    create: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput>
+  export type SpecialityUpsertWithWhereUniqueWithoutUserInput = {
+    where: SpecialityWhereUniqueInput
+    update: XOR<SpecialityUpdateWithoutUserInput, SpecialityUncheckedUpdateWithoutUserInput>
+    create: XOR<SpecialityCreateWithoutUserInput, SpecialityUncheckedCreateWithoutUserInput>
   }
 
-  export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
-    where: PostWhereUniqueInput
-    data: XOR<PostUpdateWithoutAuthorInput, PostUncheckedUpdateWithoutAuthorInput>
+  export type SpecialityUpdateWithWhereUniqueWithoutUserInput = {
+    where: SpecialityWhereUniqueInput
+    data: XOR<SpecialityUpdateWithoutUserInput, SpecialityUncheckedUpdateWithoutUserInput>
   }
 
-  export type PostUpdateManyWithWhereWithoutAuthorInput = {
-    where: PostScalarWhereInput
-    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutAuthorInput>
+  export type SpecialityUpdateManyWithWhereWithoutUserInput = {
+    where: SpecialityScalarWhereInput
+    data: XOR<SpecialityUpdateManyMutationInput, SpecialityUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type PostScalarWhereInput = {
-    AND?: PostScalarWhereInput | PostScalarWhereInput[]
-    OR?: PostScalarWhereInput[]
-    NOT?: PostScalarWhereInput | PostScalarWhereInput[]
-    id?: StringFilter<"Post"> | string
-    title?: StringFilter<"Post"> | string
-    content?: StringNullableFilter<"Post"> | string | null
-    authorId?: StringFilter<"Post"> | string
-    createdAt?: DateTimeFilter<"Post"> | Date | string
-    updatedAt?: DateTimeFilter<"Post"> | Date | string
+  export type SpecialityScalarWhereInput = {
+    AND?: SpecialityScalarWhereInput | SpecialityScalarWhereInput[]
+    OR?: SpecialityScalarWhereInput[]
+    NOT?: SpecialityScalarWhereInput | SpecialityScalarWhereInput[]
+    id?: StringFilter<"Speciality"> | string
+    name?: StringFilter<"Speciality"> | string
+    userId?: StringFilter<"Speciality"> | string
+  }
+
+  export type UserCreateWithoutSpecialityInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bio?: string | null
+    profilePicture?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    phoneNumber?: string | null
+    address?: string | null
+    city?: string | null
+    country?: string | null
+    postalCode?: string | null
+    dateOfBirth?: Date | string | null
+    lastEditAtt?: Date | string | null
+    role?: $Enums.UserRole
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSpecialityInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bio?: string | null
+    profilePicture?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    phoneNumber?: string | null
+    address?: string | null
+    city?: string | null
+    country?: string | null
+    postalCode?: string | null
+    dateOfBirth?: Date | string | null
+    lastEditAtt?: Date | string | null
+    role?: $Enums.UserRole
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSpecialityInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSpecialityInput, UserUncheckedCreateWithoutSpecialityInput>
+  }
+
+  export type UserUpsertWithoutSpecialityInput = {
+    update: XOR<UserUpdateWithoutSpecialityInput, UserUncheckedUpdateWithoutSpecialityInput>
+    create: XOR<UserCreateWithoutSpecialityInput, UserUncheckedCreateWithoutSpecialityInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSpecialityInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSpecialityInput, UserUncheckedUpdateWithoutSpecialityInput>
+  }
+
+  export type UserUpdateWithoutSpecialityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSpecialityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPostsInput = {
@@ -8638,9 +10464,21 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bio?: string | null
+    profilePicture?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    phoneNumber?: string | null
+    address?: string | null
+    city?: string | null
+    country?: string | null
+    postalCode?: string | null
+    dateOfBirth?: Date | string | null
+    lastEditAtt?: Date | string | null
     role?: $Enums.UserRole
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    speciality?: SpecialityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -8651,9 +10489,21 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bio?: string | null
+    profilePicture?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    phoneNumber?: string | null
+    address?: string | null
+    city?: string | null
+    country?: string | null
+    postalCode?: string | null
+    dateOfBirth?: Date | string | null
+    lastEditAtt?: Date | string | null
     role?: $Enums.UserRole
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    speciality?: SpecialityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -8680,9 +10530,21 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    speciality?: SpecialityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -8693,9 +10555,21 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    speciality?: SpecialityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -8706,9 +10580,21 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bio?: string | null
+    profilePicture?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    phoneNumber?: string | null
+    address?: string | null
+    city?: string | null
+    country?: string | null
+    postalCode?: string | null
+    dateOfBirth?: Date | string | null
+    lastEditAtt?: Date | string | null
     role?: $Enums.UserRole
-    accounts?: AccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    speciality?: SpecialityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -8719,9 +10605,21 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bio?: string | null
+    profilePicture?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    phoneNumber?: string | null
+    address?: string | null
+    city?: string | null
+    country?: string | null
+    postalCode?: string | null
+    dateOfBirth?: Date | string | null
+    lastEditAtt?: Date | string | null
     role?: $Enums.UserRole
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    speciality?: SpecialityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -8748,9 +10646,21 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    accounts?: AccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    speciality?: SpecialityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -8761,9 +10671,21 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    speciality?: SpecialityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -8774,9 +10696,21 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bio?: string | null
+    profilePicture?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    phoneNumber?: string | null
+    address?: string | null
+    city?: string | null
+    country?: string | null
+    postalCode?: string | null
+    dateOfBirth?: Date | string | null
+    lastEditAtt?: Date | string | null
     role?: $Enums.UserRole
-    sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    speciality?: SpecialityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -8787,9 +10721,21 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bio?: string | null
+    profilePicture?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    phoneNumber?: string | null
+    address?: string | null
+    city?: string | null
+    country?: string | null
+    postalCode?: string | null
+    dateOfBirth?: Date | string | null
+    lastEditAtt?: Date | string | null
     role?: $Enums.UserRole
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    speciality?: SpecialityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -8816,9 +10762,21 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    speciality?: SpecialityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -8829,9 +10787,29 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    firstname?: NullableStringFieldUpdateOperationsInput | string | null
+    lastname?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEditAtt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    speciality?: SpecialityUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PostCreateManyAuthorInput = {
+    id?: string
+    title: string
+    content?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SessionCreateManyUserInput = {
@@ -8859,12 +10837,33 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type PostCreateManyAuthorInput = {
-    id?: string
-    title: string
-    content?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type SpecialityCreateManyUserInput = {
+    id: string
+    name: string
+  }
+
+  export type PostUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -8942,28 +10941,19 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PostUpdateWithoutAuthorInput = {
+  export type SpecialityUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
   }
 
-  export type PostUncheckedUpdateWithoutAuthorInput = {
+  export type SpecialityUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
   }
 
-  export type PostUncheckedUpdateManyWithoutAuthorInput = {
+  export type SpecialityUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
   }
 
 

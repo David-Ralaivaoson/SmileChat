@@ -1,6 +1,5 @@
+'use client'
 // app/profile/page.tsx
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import {
@@ -15,13 +14,16 @@ import { useSession } from "@/lib/auth-client";
 import SkeletonProfile from "./_skeleton/ProfileSkeleton";
 import { Separator } from "@/components/ui/separator";
 import EditProfile from "./EditProfile";
+import { useUser } from "@/actions/api/user";
+import { redirect } from "next/dist/server/api-utils";
 
 export default function ProfilePage() {
     const {data, isPending} = useSession()
-    const user = data?.user
-    if(isPending){
-        return <SkeletonProfile />
-    }
+    const { data : userFetch, isPending : isUserPending} = useUser(data?.user.id ?? "")
+    const user = userFetch
+    if(isPending || isUserPending) return <SkeletonProfile />
+    console.log(user)
+
 
   return (
     <div className="max-w-5xl mx-auto p-4 h-[calc(100vh-82px)] dark:text-white ">
@@ -59,13 +61,13 @@ export default function ProfilePage() {
             <div className="mt-4">
               <Separator />
               <p className="text-center md:text-start text-sm text-muted-foreground">
-                Bio lorem ipsum dolor sit amet ✨
+                {user.bio}
               </p>
             </div>
           </div>
         </div>
         <div className="flex justify-center">
-          <EditProfile />
+          <EditProfile user={user}/>
         </div>
       </div>
 

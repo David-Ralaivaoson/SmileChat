@@ -28,14 +28,35 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @default(now()) @updatedAt
+  bio            String?  
+  profilePicture String?
+  firstname      String?
+  lastname       String?
+  phoneNumber    String?
+  address        String?
+  city           String?
+  country        String?
+  postalCode     String?
+  dateOfBirth    DateTime?
+  lastEditAtt    DateTime?
+
+
+  role          UserRole @default(CLIENT)
+  posts         Post[]
   sessions      Session[]
   accounts      Account[]
+  speciality    Speciality[]
 
-  role      UserRole @default(CLIENT)
-  posts     Post[]
 
   @@unique([email])
   @@map("user")
+}
+
+model Speciality {
+  id String @id
+  name String
+  user User @relation(fields: [userId], references: [id])
+  userId String
 }
 
 model Post {

@@ -11,23 +11,25 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import EditProfile from "../EditProfile"
 import SkeletonProfile from "../_skeleton/ProfileSkeleton"
+import { getRequiredUser } from "@/actions/auth-session"
 
 interface Props {
   userId: string
 }
 
 export default function UserProfileClient({ userId }: Props) {
-  const { data, isPending, error } = useUser(userId)
+  const { data : user, isPending, error } = useUser(userId)
   const {data : session} = useSession()
-
-  if (isPending) return <SkeletonProfile />
-  if (error) return <p>Erreur: {error.message}</p>
-
-  const user = data
   if(session?.user.id === userId){
     redirect('/profile')
   }
+  
+  if (isPending) return <SkeletonProfile />
   if (!user) return <p>Utilisateur non trouvé</p>
+  if (error) return <p>Erreur: {error.message}</p>
+
+
+
 
   // Redirection si l'utilisateur n'est pas le propriétaire
  
@@ -49,7 +51,7 @@ export default function UserProfileClient({ userId }: Props) {
           </div>
           <div className="flex-1">
             <div className="flex flex-col gap-4">
-              <h2 className="text-2xl font-semibold">{user?.name}</h2>
+              <h2 className="text-2xl font-semibold">{user.name}</h2>
             </div>
             <div className="flex justify-center md:justify-start gap-6 mt-4 text-sm">
               <span>
@@ -65,7 +67,7 @@ export default function UserProfileClient({ userId }: Props) {
             <div className="mt-4">
               <Separator />
               <p className="text-center md:text-start text-sm text-muted-foreground">
-                Bio lorem ipsum dolor sit amet ✨
+                {user.bio}
               </p>
             </div>
           </div>

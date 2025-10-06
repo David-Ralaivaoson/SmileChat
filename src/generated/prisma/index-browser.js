@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.16.2
- * Query Engine version: 1c57fdcd7e44b29b9313256c76699e91c3ac3c43
+ * Prisma Client JS version: 6.16.3
+ * Query Engine version: bb420e667c1820a8c05a38023385f6cc7ef8e83a
  */
 Prisma.prismaVersion = {
-  client: "6.16.2",
-  engine: "1c57fdcd7e44b29b9313256c76699e91c3ac3c43"
+  client: "6.16.3",
+  engine: "bb420e667c1820a8c05a38023385f6cc7ef8e83a"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -128,7 +128,24 @@ exports.Prisma.UserScalarFieldEnum = {
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  bio: 'bio',
+  profilePicture: 'profilePicture',
+  firstname: 'firstname',
+  lastname: 'lastname',
+  phoneNumber: 'phoneNumber',
+  address: 'address',
+  city: 'city',
+  country: 'country',
+  postalCode: 'postalCode',
+  dateOfBirth: 'dateOfBirth',
+  lastEditAtt: 'lastEditAtt',
   role: 'role'
+};
+
+exports.Prisma.SpecialityScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  userId: 'userId'
 };
 
 exports.Prisma.PostScalarFieldEnum = {
@@ -197,6 +214,7 @@ exports.UserRole = exports.$Enums.UserRole = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Speciality: 'Speciality',
   Post: 'Post',
   Session: 'Session',
   Account: 'Account',

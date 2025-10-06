@@ -15,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
 
   const isAuthPage = pathname.startsWith('/auth');
+  const isMessagesPage = pathname.startsWith('/messages');
   return (
     <>
       <html lang="en" suppressHydrationWarning>
@@ -32,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 showSpinner={false}
               />
               <Providers>
-                {!isAuthPage &&
+                {(!isAuthPage && !isMessagesPage) &&
                   <Navbar
                   logoHref="/"
                   />

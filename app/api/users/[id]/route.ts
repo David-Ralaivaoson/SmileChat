@@ -1,15 +1,14 @@
 // app/api/users/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { prisma } from "@/lib/prisma" // adapte ton chemin
 import { put } from "@vercel/blob"
+import { prisma } from "@/lib/prisma"
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
+import { updateUserSchema } from "@/schema/user/updateUser.schema"
 
 // ✅ Validation avec Zod
-const updateUserSchema = z.object({
-  name: z.string().min(2).max(100).optional(),
-  email: z.string().email().optional(),
-  image: z.string().optional(), // peut contenir une URL déjà uploadée
-})
+
 
 /**
  * GET /api/users/[id]
@@ -22,7 +21,10 @@ export async function GET(
   const { id } = await context.params // ✅ attendre params
   try {
     const user = await prisma.user.findUnique({
-      where: { id: id }
+      where: { id: id },
+      include: {
+        posts:true
+      }
     })
 
     if (!user) {
@@ -41,63 +43,57 @@ export async function GET(
   }
 }
 
-/**
- * PATCH /api/users/[id]
- * Modifie un utilisateur + upload image
- */
 export async function PUT(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await context.params // ✅ attendre params
+  const { id } = await context.params
   try {
-    // ⚡ On gère FormData (utile pour l'upload d'image)
-    const formData = await req.formData()
-
-    const name = formData.get("name") as string | null
-    const email = formData.get("email") as string | null
-    const file = formData.get("image") as File | null
-
-    // ✅ Validation Zod (sans l’image pour l’instant)
-    const parsed = updateUserSchema.safeParse({
-      name,
-      email,
-      image: file ? file.name : undefined,
+    const userSession = auth.api.getSession({
+      headers: await headers()
     })
+    const userConnected = await userSession
+    if(!userConnected) return null
+
+    if (userConnected.user.id !== id) {
+      return NextResponse.json({error: `tu dois être ${userConnected.user.name} pour effectuer cette modification !`})
+    }
+    const body = await req.json()
+
+    const data = {
+      firstname: body.firstname,
+      lastname: body.lastname,
+      bio: body.bio,
+      phoneNumber: body.phoneNumber,
+      address: body.address,
+      city: body.city,
+      country: body.country,
+      postalCode: body.postalCode,
+      dateOfBirth: body.dateOfBirth ? new Date(body.dateOfBirth) : undefined,
+    }
+
+    // ⚡ Gestion image
+    // const file = formData.get("image") as File | null
+    // if (file) {
+    //   const blob = await put(`users/${id}-${file.name}`, file, { access: "public" })
+    //   data.image = blob.url
+    // }
+
+    // ✅ Validation Zod
+    const parsed = updateUserSchema.safeParse(data)
     if (!parsed.success) {
-      return NextResponse.json(
-        { error: parsed.error.flatten().fieldErrors },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: parsed.error.issues }, { status: 400 })
     }
 
-    let imageUrl: string | undefined = undefined
-
-    // ⚡ Upload image si présente
-    if (file) {
-      const blob = await put(`users/${id}-${file.name}`, file, {
-        access: "public", // rend l’URL publique
-      })
-      imageUrl = blob.url
-    }
-
-    // ✅ Mise à jour dans Prisma
+    // ✅ Mise à jour Prisma
     const updatedUser = await prisma.user.update({
-      where: { id: id },
-      data: {
-        ...(parsed.data.name && { name: parsed.data.name }),
-        ...(parsed.data.email && { email: parsed.data.email }),
-        ...(imageUrl && { image: imageUrl }),
-      },
-      
+      where: { id },
+      data: parsed.data,
     })
 
-    return NextResponse.json(updatedUser, { status: 200 })
-  } catch (error) {
-    console.error(error)
-    return NextResponse.json(
-      { error: "Erreur lors de la mise à jour" },
-      { status: 500 }
-    )
+    return NextResponse.json(updatedUser)
+  } catch (err) {
+    console.log(err)
+    return NextResponse.json({ error: "Erreur lors de la modification" }, { status: 500 })
   }
 }
