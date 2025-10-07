@@ -1,14 +1,16 @@
-// app/api/users/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server"
 import { headers } from "next/headers"
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/lib/auth"
 import { updateUserSchema } from "@/schema/user/updateUser.schema"
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+// ⚙️ Helper pour gérer la compatibilité du validateur Next.js
+type ParamsType =
+  | { params: { id: string } }
+  | { params: Promise<{ id: string }> }
+
+export async function GET(req: NextRequest, context: ParamsType) {
+  const params = await (context.params as any)
   const { id } = params
 
   try {
@@ -27,10 +29,8 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: NextRequest, context: ParamsType) {
+  const params = await (context.params as any)
   const { id } = params
 
   try {
