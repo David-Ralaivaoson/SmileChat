@@ -195,7 +195,10 @@ export default function EditProfile({user}: any) {
                             type="date"
                             placeholder="Date de naissance..."
                             {...field}
-                            value={field.value?.toISOString().split('T')[0] ?? ""}
+                            value={field.value && !isNaN(new Date(field.value).getTime())
+                              ? new Date(field.value).toISOString().split("T")[0]
+                              : ""}
+                            onChange={(e) => field.onChange(new Date(e.target.value))}
                           />
                         </FormControl>
                         <FormMessage />
